@@ -1,5 +1,7 @@
 const imgUrl =
-  process.env.NODE_ENV === "production" ? "" : "http://localhost:5000/img";
+  process.env.NODE_ENV === "production"
+    ? "https://student-virtual-id-card-production.up.railway.app/img"
+    : "http://localhost:5000/img";
 
 const studentsDetails = [
   {
