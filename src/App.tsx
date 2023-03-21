@@ -27,7 +27,7 @@ function App() {
     const regNoRegex = /^\d\d\/\d\d\d\d\d[A-Za-z]\/[0-9]+$/i;
     const url =
       process.env.NODE_ENV === "production"
-        ? "student-virtual-id-card-production.up.railway.app"
+        ? "https://student-virtual-id-card-production.up.railway.app"
         : "http://localhost:5000";
 
     // Check if the student is already fetched
