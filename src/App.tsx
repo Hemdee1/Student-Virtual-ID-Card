@@ -26,7 +26,9 @@ function App() {
   const generateCard = async (regNo: string, password: string) => {
     const regNoRegex = /^\d\d\/\d\d\d\d\d[A-Za-z]\/[0-9]+$/i;
     const url =
-      process.env.NODE_ENV === "production" ? "" : "http://localhost:5000";
+      process.env.NODE_ENV === "production"
+        ? "student-virtual-id-card-production.up.railway.app"
+        : "http://localhost:5000";
 
     // Check if the student is already fetched
     if (data && data.regNo.toLowerCase() === regNo.toLowerCase()) {
