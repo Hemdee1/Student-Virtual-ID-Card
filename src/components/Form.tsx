@@ -11,7 +11,7 @@ const Form = ({ generateCard, error, loading }: formPropsType) => {
   const [password, setPassword] = useState("");
 
   return (
-    <div className="w-full h-full bg-slate-100 px-6 sm:px-10 flex flex-col justify-center items-center">
+    <div className="w-full h-full bg-slate-300 px-6 sm:px-10 flex flex-col justify-center items-center">
       <img
         src="/images/logo.png"
         alt="logo"
