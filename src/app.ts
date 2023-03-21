@@ -12,7 +12,7 @@ app.use(morgan("dev"));
 app.use(
   cors({
     origin:
-      process.env.NODE_ENV === "production" ? "" : "http://localhost:5173",
+      process.env.NODE_ENV === "production" ? "https://atbu-virtual-id-generator.netlify.app" : "http://localhost:5173",
     credentials: true,
   })
 );
