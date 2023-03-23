@@ -1,12 +1,55 @@
-import { CardDataType } from "../App";
-import CloseIcon from "./CloseIcon";
+import axios, { AxiosError } from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { CardDataType } from "./GenrateQR";
 
-type CardContainerPropsType = {
-  setOpenCardModal: React.Dispatch<React.SetStateAction<boolean>>;
-  data: CardDataType;
-};
+const Card = () => {
+  const [data, setData] = useState<CardDataType>({} as CardDataType);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const { id } = useParams();
 
-const CardContainer = ({ setOpenCardModal, data }: CardContainerPropsType) => {
+  const url =
+    process.env.NODE_ENV === "production"
+      ? "https://student-virtual-id-card-production.up.railway.app"
+      : "http://localhost:5000";
+
+  useEffect(() => {
+    if (!id) return;
+
+    const fetchId = async () => {
+      setLoading(true);
+
+      try {
+        const decode = atob(id);
+        const regNo = decode;
+        const password = "admin";
+
+        const res = await axios.post<CardDataType>(url + "/reg/admin", {
+          regNo,
+          password,
+        });
+
+        setData(res.data);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          if (error.response) {
+            console.log(error.response.data.error);
+            setError(true);
+          }
+        }
+        if (error instanceof Error) {
+          console.log(error.message);
+          setError(true);
+        }
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchId();
+  }, [id]);
+
   const {
     bloodGroup,
     dateIssued,
@@ -20,15 +63,29 @@ const CardContainer = ({ setOpenCardModal, data }: CardContainerPropsType) => {
     signature,
   } = data;
 
-  return (
-    <section className="absolute inset-0 backdrop-blur-sm z-10 bg-black bg-opacity-80 flex justify-center items-center w-full sm:px-5">
-      <button
-        className="absolute right-5 sm:right-20 top-5"
-        onClick={() => setOpenCardModal(false)}
-      >
-        <CloseIcon />
-      </button>
+  if (loading) {
+    return (
+      <section className="bg-slate-900 flex flex-col gap-5 text-white font-Lato font-semibold tracking-widest justify-center items-center w-full h-screen">
+        <p>Loading card...</p>
+        <span className="loader"></span>
+      </section>
+    );
+  }
 
+  if (error) {
+    return (
+      <section className="bg-slate-900 flex flex-col gap-5 text-white text-center font-Lato font-semibold tracking-widest justify-center items-center w-full h-screen">
+        <img src="/images/failed.ico" alt="failed" className="w-20" />
+        <p>
+          The link you enter is invalid <br /> generate another link and try
+          again
+        </p>
+      </section>
+    );
+  }
+
+  return (
+    <section className="bg-slate-900 flex justify-center items-center w-full h-screen sm:px-5">
       <div className="bg-[#B6BDC7] max-w-[640px] rounded-3xl py-3 sm:px-3 px-4 sm:py-4 overflow-hidden card relative">
         <div className="absolute inset-0 w-full bg-[url('/images/picture4-flip.jpg')] sm:bg-[url('/images/picture4.jpg')] flex justify-center items-center bg-cover bg-no-repeat opacity-20">
           <img src="/images/logo.png" alt="logo" className="w-36 h-32" />
@@ -107,7 +164,7 @@ const CardContainer = ({ setOpenCardModal, data }: CardContainerPropsType) => {
             </div>
           </div>
 
-          <footer className="text-center mt-2 font-Lato tracking-tighter bg-[#8E542E] text-[#f7c250]">
+          <footer className="text-center mt-2 font-Lato  bg-[#8E542E] text-[#f7c250]">
             {/* Computer & Communications Engineering Programme */}
             {department} {" Programme"}
           </footer>
@@ -117,4 +174,4 @@ const CardContainer = ({ setOpenCardModal, data }: CardContainerPropsType) => {
   );
 };
 
-export default CardContainer;
+export default Card;
