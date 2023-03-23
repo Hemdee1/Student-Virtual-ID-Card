@@ -13,8 +13,8 @@ const QRContainer = ({ setOpenCardModal, data }: QRContainerPropsType) => {
 
   const url =
     process.env.NODE_ENV === "production"
-      ? "https://student-virtual-id-card-production.up.railway.app/card/"
-      : "http://localhost:5000/card/";
+      ? "https://atbu-virtual-id-generator.netlify.app/card/"
+      : "http://localhost:5173/card/";
 
   const encodeInitial = btoa(regNo);
   const encodeReg = encodeInitial.slice(0, encodeInitial.length - 1);
