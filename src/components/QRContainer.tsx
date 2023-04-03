@@ -29,13 +29,13 @@ const QRContainer = ({ setOpenCardModal, data }: QRContainerPropsType) => {
         <CloseIcon />
       </button>
       <QRCodeCanvas value={link} includeMargin className="qrCode" id="qrCode" />
-      {/* <Link
+      <Link
         to={`/card/${encodeReg}`}
-        className="text-white font-Lato mt-10 text-xl underline break-all px-5 text-center"
+        className="text-white font-Lato font-bold mt-20 text-xl underline break-all px-5 text-center"
         target="_blank"
       >
-        {link}
-      </Link> */}
+        View My ID Card
+      </Link>
     </section>
   );
 };
